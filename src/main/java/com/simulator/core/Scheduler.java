@@ -1,4 +1,4 @@
-package main.java.com.simulator.core;
+package com.simulator.core;
 
 public class Scheduler {
     

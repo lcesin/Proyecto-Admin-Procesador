@@ -1,4 +1,4 @@
-package main.java.com.simulator.algorithms;
+package com.simulator.algorithms;
 
 public class Priority {
     

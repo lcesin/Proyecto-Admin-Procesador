@@ -1,4 +1,4 @@
-package main.java.com.simulator.utils;
+package com.simulator.utils;
 
 public class InputHandler {
     

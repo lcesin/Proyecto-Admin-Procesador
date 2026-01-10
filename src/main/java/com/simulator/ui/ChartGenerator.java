@@ -1,4 +1,4 @@
-package main.java.com.simulator.ui;
+package com.simulator.ui;
 
 public class ChartGenerator {
     

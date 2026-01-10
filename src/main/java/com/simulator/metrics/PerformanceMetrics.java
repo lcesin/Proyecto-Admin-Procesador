@@ -1,4 +1,4 @@
-package main.java.com.simulator.metrics;
+package com.simulator.metrics;
 
 public class PerformanceMetrics {
     
