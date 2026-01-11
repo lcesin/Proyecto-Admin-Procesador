@@ -38,10 +38,12 @@ public class Priority implements SchedulingStrategy {
                         .min(Comparator.comparingInt(Process::getPriority)) 
                         .orElseThrow();
 
-                // 3. Ejecutar
                 highestPriority.setStartTime(currentTime);
                 highestPriority.setState(ProcessState.RUNNING);
                 highestPriority.setWaitingTime(currentTime - highestPriority.getArrivalTime());
+
+                // CORRECCIÓN PARA GRÁFICO:
+                highestPriority.addExecutionInterval(currentTime, currentTime + highestPriority.getBurstTime());
 
                 currentTime += highestPriority.getBurstTime();
 

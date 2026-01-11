@@ -104,4 +104,16 @@ public class Process implements Comparable<Process> {
                 ", remaining=" + remainingTime +
                 '}';
     }
+
+    // --- NUEVO: Historial de Ejecución para Diagrama de Gantt ---
+    // Guardamos pares de [Inicio, Fin]
+    private java.util.List<int[]> executionHistory = new java.util.ArrayList<>();
+
+    public void addExecutionInterval(int start, int end) {
+        this.executionHistory.add(new int[]{start, end});
+    }
+
+    public java.util.List<int[]> getExecutionHistory() {
+        return executionHistory;
+    }
 }

@@ -60,6 +60,9 @@ public class RoundRobin implements SchedulingStrategy {
                 // Determinar tiempo de ejecución en este ciclo (Quantum o lo que le falte)
                 int timeSlice = Math.min(quantum, currentProcess.getRemainingTime());
 
+                // Guardar el intervalo para el gráfico (ESTA ES LA LÍNEA NUEVA)
+                currentProcess.addExecutionInterval(currentTime, currentTime + timeSlice);
+                
                 // Ejecutar
                 currentProcess.setRemainingTime(currentProcess.getRemainingTime() - timeSlice);
                 currentTime += timeSlice;

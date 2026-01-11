@@ -29,6 +29,9 @@ public class FCFS implements SchedulingStrategy {
             process.setStartTime(currentTime);
             process.setState(ProcessState.RUNNING);
 
+            // LÍNEA NUEVA:
+            process.addExecutionInterval(currentTime, currentTime + process.getBurstTime());
+
             // --- Cálculos de Métricas ---
             // Tiempo de Espera = Momento en que inicia - Momento en que llegó
             process.setWaitingTime(currentTime - process.getArrivalTime());

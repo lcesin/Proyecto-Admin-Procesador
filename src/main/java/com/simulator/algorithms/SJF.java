@@ -20,36 +20,39 @@ public class SJF implements SchedulingStrategy {
         int completedProcesses = 0;
         int totalProcesses = processes.size();
         
-        // Mantenemos una lista de procesos pendientes para no modificar la original desordenadamente
         List<Process> remainingProcesses = new ArrayList<>(processes);
 
         while (completedProcesses < totalProcesses) {
-            // 1. Filtrar procesos que ya llegaron y NO han terminado
+            // 1. Filtrar procesos disponibles
             int finalCurrentTime = currentTime;
             List<Process> availableProcesses = remainingProcesses.stream()
                     .filter(p -> p.getArrivalTime() <= finalCurrentTime && p.getState() != ProcessState.TERMINATED)
                     .collect(Collectors.toList());
 
             if (availableProcesses.isEmpty()) {
-                // Si no hay procesos disponibles, avanzamos el tiempo
-                // (Podríamos saltar al siguiente tiempo de llegada para optimizar, 
-                // pero ++ simula el ciclo de reloj ocioso)
                 currentTime++;
             } else {
-                // 2. Seleccionar el de menor ráfaga (Burst Time)
+                // 2. Seleccionar el de menor ráfaga
                 Process shortest = availableProcesses.stream()
                         .min(Comparator.comparingInt(Process::getBurstTime))
                         .orElseThrow();
 
-                // 3. Ejecutar el proceso (Non-Preemptive: todo de una vez)
-                shortest.setStartTime(currentTime);
+                // 3. Configurar inicio
+                if (shortest.getStartTime() == -1) {
+                    shortest.setStartTime(currentTime);
+                }
                 shortest.setState(ProcessState.RUNNING);
                 shortest.setWaitingTime(currentTime - shortest.getArrivalTime());
 
-                // Avanzamos el reloj toda la duración de la ráfaga
+                // --- NUEVO: GUARDAR HISTORIAL PARA EL GRÁFICO ---
+                // Nótese que usamos 'shortest' (el nombre de la variable local), no 'process'
+                shortest.addExecutionInterval(currentTime, currentTime + shortest.getBurstTime());
+                // ------------------------------------------------
+
+                // Avanzar tiempo
                 currentTime += shortest.getBurstTime();
 
-                // Finalizar proceso
+                // Finalizar
                 shortest.setFinishTime(currentTime);
                 shortest.setTurnaroundTime(shortest.getFinishTime() - shortest.getArrivalTime());
                 shortest.setRemainingTime(0);
