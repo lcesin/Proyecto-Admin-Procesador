@@ -6,6 +6,7 @@ import com.simulator.algorithms.Priority;
 import com.simulator.algorithms.RoundRobin;
 import com.simulator.algorithms.SJF;
 import com.simulator.algorithms.SchedulingStrategy;
+import com.simulator.metrics.PerformanceMetrics;
 import com.simulator.model.Process;
 
 import java.util.ArrayList;
@@ -27,23 +28,7 @@ public class Main {
         strategy.run(processes);
 
         // 4. Imprimir resultados
-        System.out.println("ID\tLlegada\tRáfaga\tEspera\tRetorno\tFinal");
-        float totalWait = 0;
-        float totalTurnaround = 0;
-
-        for (Process p : processes) {
-            System.out.println(p.getId() + "\t" +
-                    p.getArrivalTime() + "\t" +
-                    p.getBurstTime() + "\t" +
-                    p.getWaitingTime() + "\t" +
-                    p.getTurnaroundTime() + "\t" +
-                    p.getFinishTime());
-            
-            totalWait += p.getWaitingTime();
-            totalTurnaround += p.getTurnaroundTime();
-        }
-
-        System.out.println("\nPromedio Espera: " + (totalWait / processes.size()));
-        System.out.println("Promedio Retorno: " + (totalTurnaround / processes.size()));
+        PerformanceMetrics metrics = new PerformanceMetrics();
+        metrics.printMetrics(processes);
     }
 }
